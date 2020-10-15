@@ -1,0 +1,17 @@
+.create_form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding:40px;
+    width: 450px;
+    border-radius: 10px;
+    
+}
+.form > form{
+    padding:20px;
+    display: flex;
+    justify-content:space-evenly;
+    flex-direction: column;
+    
+}

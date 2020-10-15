@@ -1,0 +1,13 @@
+.sidenav{
+    width: 300px;
+    position: fixed;
+    z-index: 999;
+    height: 100vh;
+    background-color: #fff;
+    border: 1px solid #eee;
+    transition: all 0.25s ease-in-out;
+    
+}
+.sidenav__header{
+    border:1px solid #eee;
+}
