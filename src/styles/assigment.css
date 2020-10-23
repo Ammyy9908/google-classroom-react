@@ -1,0 +1,7 @@
+.assigment_add{
+    display: flex;
+    justify-content: space-between;
+}
+.assignment__left{
+    flex: .6;
+}

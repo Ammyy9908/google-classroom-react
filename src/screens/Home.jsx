@@ -18,16 +18,19 @@ import { useStateValue } from '../StateProvider';
 import {db,auth} from '../firebase'
 import CreateForm from '../components/CreateForm'
 import Sidenav from '../components/Sidenav';
+import {useHistory} from 'react-router-dom'
+import Login from './Login';
+import firebase from 'firebase'
 
 
 function Home() {
-    const [{user,create},dispatch] = useStateValue();
-    const [cls,setClasses] = useState([]);
+    const [{user,create,classes},dispatch] = useStateValue();
       const [openp,setOpenP] = React.useState(false);
       const [openprofile,setOpenProfile] = React.useState(false);
       const [error,setError] = React.useState(false);
       const [codeActive,setCodeActive] = React.useState(false);
       const [sidenav,setSidenav] = React.useState(false);
+      const history = useHistory();
 
       const [code,setCode] = React.useState('');
       // function to handle class code input
@@ -36,20 +39,23 @@ function Home() {
           setCode(event.target.value);
       }
 
+    
+
       //fetch all classes
       useEffect(()=>{
-        db.collection("classes").where('teacher','==',user.displayName)
+        document.title = 'Sir MVIT Classroom';
+        console.log(user && user);
+        db.collection("classes")
         .onSnapshot(function(snapshot) {
             let tempClass = [];
         snapshot.docs.forEach((cls)=>{tempClass.push({data:cls.data(),id:cls.id})})
-        setClasses(tempClass)
         dispatch({
             type:'SET_CLASSES',
-            classes:tempClass,
+            classes:tempClass.filter((classes)=>classes.data.teacher === (user && user.displayName) || (classes.data.students.includes(user && user.displayName))),
         })
-        console.log(cls);
+        
         });
-      },[])
+      },[user])
 
 
 
@@ -92,6 +98,7 @@ function Home() {
 
       const handleLogout = ()=>{
           auth.signOut();
+          history.push('/login')
       }
 
 
@@ -102,18 +109,33 @@ function Home() {
           })
       }
 
+      // handle joining of class
+
+      const handleJoin = () =>{
+        db.collection('classes').where('code','==',code).get().then((doc)=>{
+          doc.docs.forEach((data)=>{
+            db.collection('classes').doc(data.id).update({
+              students:firebase.firestore.FieldValue.arrayUnion(user && user.displayName)
+            }).then(()=>{
+              handleClosePop()
+            }).catch((err)=>{console.log(err)});
+          })
+        })
+      }
+
       
     
     return (
-        <div className="home">
+      <div>
+       {user ? <div className="home">
             {codeActive?<div className="code__nav">
             <nav className="nav_code">
                     <div className="nav__code__left">
-                        <IconButton><AddIcon/></IconButton>
+                        <IconButton onClick={handleClosePop}><CloseIcon/></IconButton>
                         <h3>Join a Class</h3>
                     </div>
                     <div className="nav__code__right">
-                        <Button variant="contained" disabled={code.length>6?false:true} color="primary" onClick={handleClosePop}>Done</Button>
+                        <Button variant="contained" disabled={code.length>6?false:true} color="primary" onClick={handleJoin}>Done</Button>
                     </div>
             </nav>
         <div className="container__join">
@@ -139,19 +161,25 @@ function Home() {
            <IconButton onClick={handleClickPop}><AddIcon/></IconButton>
             </div>
             <div className="nav__right__right">
-                <img src={user.photoURL} alt="user" onClick={handleProfilePopupOpen}/>
+                <img src={user && user.photoURL} alt="user" onClick={handleProfilePopupOpen}/>
             </div>
         </div>
     </nav>
     
     
     {sidenav && <Sidenav />}
-    <h1>Your Classes</h1>
+    <div className="title__top" style={{"display":"flex","padding":"20px","marginLeft":"40px","flex-direction":"column"}}>
+    <h1 style={{"fontWeight":"300"}}>Hi 👋 {user.displayName}</h1>
+    <p>Your Classes</p>
+    </div>
     {!create && <div className="container">
     
-            {cls.map((item)=><Card name={item.data.class_name} teacher={item.data.teacher} key={item.id} id={item.id} teacherAvatar={item.data.teacherAvatar}/>)}
+            {classes.map((item)=><Card name={item.data.class_name} teacher={item.data.teacher} key={item.id} id={item.id} teacherAvatar={item.data.teacherAvatar} cover={item.data.cover.url}/>)}
+            
 
       </div>}
+
+      
 
       {/*Popover */}
       <Popover
@@ -214,7 +242,7 @@ function Home() {
       </List>
       </Popover></div>}
      
-        </div>
+        </div> : <Login/>}</div>
     )
 }
 

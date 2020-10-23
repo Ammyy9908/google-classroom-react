@@ -1,0 +1,109 @@
+.class__container{
+    max-width: 1078px;
+    padding: 1.6rem auto;
+    margin: 20px auto;
+}
+.class__header{
+    width: 80%;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 10px;
+    height: 200px;
+}
+.nav__middle{
+    padding: 10px;
+}
+.nav__middle ul{
+    display: flex;
+   justify-content:space-evenly;
+   list-style: none;
+}
+.nav__middle > ul > li{
+    margin-right: 20px;
+}
+.nav__middle > ul > li > a{
+    text-decoration: none;
+    font-weight: 600;
+    color: #ccc;
+}
+.link__active{
+    color: #0784f1 !important;
+    border-bottom: 5px solid #0784f1;
+    padding-bottom: 18px;
+}
+.dashboard{
+    display: flex;
+    margin: 0 auto;
+    background-size: cover;
+    border-radius: 10px;
+    height: 200px;
+    max-width: 80%;
+    padding: 20px;
+    justify-content:space-between;
+}
+.dashboard__left{
+    flex:.3;
+    padding:5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    align-items:center;
+}
+.dashboard__right{
+    flex:.7;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.teacher__post > .post__start{
+    display: flex;
+   justify-content:flex-start;
+   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   align-items: center;
+   padding: 10px;
+   border-radius: 5px;
+   margin-bottom: 10px;
+    
+}
+.teacher__post > .post__start > p{
+    margin-left: 10px;
+    font-size: 14px;
+    color: #999;
+}
+.dashboard__right > .assignment__list{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    padding: 5px;
+    border-radius: 3px;
+    justify-content:flex-start;
+   
+}
+
+.dashboard__right > .assignment__list > h3{
+    color: #0784f1;
+    font-weight: 500;
+}
+.asl_bottom{
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+}
+.asl_bottom > p{
+    font-weight: 600;
+}
+@media screen and (max-width:768px){
+    .dashboard{
+        flex-direction: column;
+    }
+    .dashboard__left{
+        display: none;
+    }
+    .nav__middle{
+        display: none;
+    }
+}

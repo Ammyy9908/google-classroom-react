@@ -23,8 +23,9 @@ function CreateForm() {
             teacher:user.displayName,
             students:[],
             students_comments:[],
-            assihnments:[],
+            assignments:[],
             teacherAvatar:user.photoURL,
+            cover:''
         }).then(()=>{
             dispatch({
                 type:"SET_CREATE",

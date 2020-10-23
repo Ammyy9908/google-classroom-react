@@ -3,12 +3,15 @@ import '../styles/login.css'
 import brand from '../brand.svg'
 import { Button, IconButton } from '@material-ui/core'
 import {auth,gp} from '../firebase'
+import {useHistory} from 'react-router-dom'
 
 function Login() {
 
+    const history = useHistory();
+
     const handleLogin = () =>{
         auth.signInWithPopup(gp).then((cred)=>{
-            console.log(cred.user);
+                history.push('/');
         }).catch((error)=>{
             console.log(error);
         })

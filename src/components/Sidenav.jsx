@@ -6,16 +6,16 @@ import { useStateValue } from '../StateProvider';
 
 function Sidenav({}) {
     const [{user,create,classes},dispatch] = useStateValue();
+    
     return (
         <div className="sidenav">
-            <div className="sidenav__header">
-            <Option Icon={HomeIcon} text="Classes"/>
-            </div>
+           
             
             
             {classes.map((item)=>{
-                return <Option text={item.data.class_name} key={item.id}/>
+                return <Option text={item.data.class_name} key={item.id} teacher={item.data.teacher} id={item.id}/>
             })}
+           
         </div>
     )
 }
